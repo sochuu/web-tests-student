@@ -1,11 +1,20 @@
 import { test, expect } from '@playwright/test';
 
 test('пустая форма показывает ошибки email и пароля', async ({ page }) => {
-  // TODO 1: откройте главную страницу Testboard через page.goto('/').
-  // TODO 2: найдите кнопку входа и откройте форму.
-  // TODO 3: отправьте форму с пустыми email и паролем.
-  // TODO 4: через expect проверьте текст «Email обязателен».
-  // TODO 5: через expect проверьте текст «Пароль обязателен».
-  // После реализации удалите throw и выполненные TODO.
-  throw new Error('TODO: реализуйте свой первый UI-тест');
+  await page.goto('/');
+
+  await page.locator('[data-marker="login-button-desktop"]').click();
+  await page.locator('[data-marker="login-submit-button"]').click();
+
+  // Я ничего не поняла, простите, была на паре в вузе в конце лекции-начале практики. Я просто вижу что   ✓  1 [chromium] после всей работы с файлом
+  // 1. Строка падения — этот expect (email-error)
+  // 2. [data-marker="email-error" под полем email после submit
+  // 3. Expected: Неверный email. Received: Email обязателен»
+  // 4. Исправила ожидание на текст с экрана
+  // 5. Повторила тот же тест — проходит. Я специально подставила неверный текст, playwright сравнил Expected и Received, узел email-error верный, текст на сайте “Email обязателен”
+
+  await expect(page.locator('[data-marker="email-error"]')).toHaveText('Email обязателен');
+  await expect(page.locator('[data-marker="password-error"]')).toHaveText('Пароль обязателен');
 });
+
+
